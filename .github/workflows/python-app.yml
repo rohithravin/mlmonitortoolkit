@@ -54,6 +54,12 @@ jobs:
       - name: Install project
         run: poetry install --no-interaction
       #----------------------------------------------
+      #              run pylint suite
+      #----------------------------------------------
+      - name: Analysing the code with pylint
+        run: |
+          pylint $(git ls-files '*.py')
+      #----------------------------------------------
       #              run test suite
       #----------------------------------------------
       - name: Run tests
