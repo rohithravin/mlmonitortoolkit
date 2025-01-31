@@ -12,8 +12,8 @@ def test_cool_numpy_function():
 
 def test_cool_pandas_function():
     """Tests cool_pandas_function by verifying column-wise sum of a DataFrame."""
-    data = {'A': [1, 2, 3], 'B': [4, 5, 6]}
+    data = {'A': [1, 2, 4], 'B': [4, 5, 6]}
     df = pd.DataFrame(data)
     column_sums = cool_pandas_function(df)
-    assert column_sums['A'] == 6
+    assert column_sums['A'] == 7
     assert column_sums['B'] == 15
