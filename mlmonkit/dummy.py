@@ -1,13 +1,25 @@
 """Dummy module for demonstration."""
 
-def add_numbers(a: int, b: int) -> int:
-    """Returns the sum of two numbers.
+import numpy as np
+
+def cool_numpy_function(arr):
+    """Computes the determinant of a given square matrix.
     
     Args:
-        a (int): First number.
-        b (int): Second number.
+        arr (numpy.ndarray): A square NumPy array.
     
     Returns:
-        int: Sum of a and b.
+        float: The determinant of the input matrix.
     """
-    return a + b
+    return np.linalg.det(arr)
+
+def cool_pandas_function(df):
+    """Calculates the sum of each column in a Pandas DataFrame.
+    
+    Args:
+        df (pandas.DataFrame): A DataFrame containing numerical values.
+    
+    Returns:
+        pandas.Series: A Series with the sum of each column.
+    """
+    return df.sum()
