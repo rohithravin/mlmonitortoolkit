@@ -58,6 +58,6 @@ jobs:
       #----------------------------------------------
       - name: Run tests
         run: |
-          source .venv/bin/activate
-          pytest tests/
-          coverage report
+          poetry run pytest --cov=mlmonkit tests/
+          poetry run coverage report
+      
