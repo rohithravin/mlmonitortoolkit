@@ -35,7 +35,7 @@ def accuracy_streaming():
 )
 def test_batch_accuracy(accuracy_batch, true_labels, pred_labels, expected_accuracy):
     """Test batch accuracy calculation for different input types."""
-    assert accuracy_batch.update(true_labels, pred_labels) == pytest.approx(expected_accuracy)
+    assert accuracy_batch.do_score(true_labels, pred_labels) == pytest.approx(expected_accuracy)
 
 @pytest.mark.parametrize(
     "true_labels, pred_labels, expected_intermediate, expected_final",
@@ -53,13 +53,13 @@ def test_batch_accuracy(accuracy_batch, true_labels, pred_labels, expected_accur
 def test_streaming_accuracy(accuracy_streaming, true_labels, pred_labels,
                             expected_intermediate, expected_final):
     """Test streaming accuracy calculation for different input types."""
-    assert accuracy_streaming.update(true_labels, pred_labels) == \
+    assert accuracy_streaming.do_score(true_labels, pred_labels) == \
         pytest.approx(expected_intermediate)
 
     # Second batch
     new_true_labels = np.array([1, 0])
     new_pred_labels = np.array([1, 1])
-    assert accuracy_streaming.update(new_true_labels, new_pred_labels) == \
+    assert accuracy_streaming.do_score(new_true_labels, new_pred_labels) == \
         pytest.approx(expected_final)
 
 def test_empty_inputs(accuracy_batch):
@@ -67,7 +67,7 @@ def test_empty_inputs(accuracy_batch):
     empty_inputs = [np.array([]), [], pd.Series([], dtype=int), pd.DataFrame({"label": []})]
 
     for empty in empty_inputs:
-        assert accuracy_batch.update(empty, empty) == 0.0
+        assert accuracy_batch.do_score(empty, empty) == 0.0
 
 def test_mismatched_lengths(accuracy_batch):
     """Test that ValueError is raised for mismatched input lengths."""
@@ -81,7 +81,7 @@ def test_mismatched_lengths(accuracy_batch):
     for true_labels, pred_labels in mismatched_cases:
         with pytest.raises(ValueError, match="The length of true_labels and " + \
                            "pred_labels must be the same."):
-            accuracy_batch.update(true_labels, pred_labels)
+            accuracy_batch.do_score(true_labels, pred_labels)
 
 @pytest.mark.parametrize(
     "true_labels, pred_labels",
@@ -96,4 +96,4 @@ def test_mismatched_lengths(accuracy_batch):
 def test_invalid_input_types(accuracy_batch, true_labels, pred_labels):
     """Test that TypeError is raised for unsupported input types."""
     with pytest.raises(TypeError):
-        accuracy_batch.update(true_labels, pred_labels)
+        accuracy_batch.do_score(true_labels, pred_labels)
