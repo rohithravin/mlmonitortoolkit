@@ -100,7 +100,7 @@ class Accuracy(BaseMetric):
         # Return the updated accuracy
         return self.correct / self.total
 
-    def update(self, true_labels, pred_labels):
+    def do_score(self, true_labels, pred_labels):
         """
         Updates the accuracy calculation based on the selected mode (batch or streaming).
         
