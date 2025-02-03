@@ -54,9 +54,6 @@ class AccuracyMultiLabel(BaseMetric):
         Raises:
         ValueError: If true_labels and pred_labels do not have the same shape.
         """
-        true_labels = _convert_to_numpy(true_labels)
-        pred_labels = _convert_to_numpy(pred_labels)
-
         if true_labels.shape != pred_labels.shape:
             raise ValueError("The shape of true_labels and pred_labels must be the same.")
 
@@ -88,9 +85,6 @@ class AccuracyMultiLabel(BaseMetric):
         TypeError: If true_labels or pred_labels are not of the expected types 
                     (list, numpy array, or pandas).
         """
-        true_labels = _convert_to_numpy(true_labels)
-        pred_labels = _convert_to_numpy(pred_labels)
-
         if len(true_labels) == 0 or len(pred_labels) == 0:
             warnings.warn("Either true_labels or pred_labels is empty")
             if self.total == 0:
@@ -104,9 +98,6 @@ class AccuracyMultiLabel(BaseMetric):
         correct_predictions = np.all(true_labels == pred_labels, axis=1).astype(int)
         self.correct += np.sum(correct_predictions)
         self.total += len(true_labels)
-
-        print(f"correct: {self.correct}")
-        print(f'total: {self.total}')
 
         # Handle potential divide-by-zero scenario
         if self.total == 0:
@@ -140,15 +131,10 @@ class AccuracyMultiLabel(BaseMetric):
             raise TypeError("Both true_labels and pred_labels should be of type list, \
                             pandas.Series, pandas.DataFrame, or numpy.ndarray.")
 
-        if isinstance(true_labels, list) and isinstance(pred_labels, list):
-            # Check if they have the same number of rows and columns
-            shape1 = (len(true_labels), len(true_labels[0])) if true_labels else (0, 0)
-            shape2 = (len(pred_labels), len(pred_labels[0])) if pred_labels else (0, 0)
-            print(f'shape1: {shape1}, shape2: {shape2}')
-            are_shapes_same = shape1 == shape2
-            if not are_shapes_same:
-                raise ValueError("The shape of true_labels and pred_labels must be the same.")
-        elif true_labels.shape != pred_labels.shape:
+        true_labels = _convert_to_numpy(true_labels)
+        pred_labels = _convert_to_numpy(pred_labels)
+
+        if true_labels.shape != pred_labels.shape:
             raise ValueError("The shape of true_labels and pred_labels must be the same.")
 
         if self.use_streaming:
