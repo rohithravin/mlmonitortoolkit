@@ -9,7 +9,7 @@ from mlmonkit.metrics.utils import _convert_to_numpy
 from mlmonkit.metrics.metric import BaseMetric
 from sklearn.metrics import f1_score
 
-class F1Score(BaseMetric):
+class F1(BaseMetric):
     """
     Class to calculate F1 score for both batch and streaming evaluation modes.
     
